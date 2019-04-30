@@ -16,7 +16,7 @@ def remove_resp(stream,debug):
         print("... detrending stream")
     stream.detrend(type='linear');
     if debug > 0:
-        print("... removing responses")
+        print("... removing responses, units VEL (m/s)")
     stream.remove_response(output="VEL")
     return(stream)
 
@@ -56,30 +56,30 @@ def write_mseed(stream,suffix,debug):
 def main():
     # Command line parsing
     parser = argparse.ArgumentParser(prog=progname,
-            formatter_class=argparse.RawDescriptionHelpFormatter,
-            description=
-            'grab waveform data for a station and output in some format')
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
+        description=
+            'Grab waveform data for a single station and output in sac or mseed format.')
 
     parser.add_argument("-t","--start_time", type=str,
-        required=True, help="reference start time in iso-format e.g. 2019001T00:00, set to SAC O")
+        required=True, help="Reference start time in iso-format e.g. 2019001T00:00, set to SAC O")
 
     parser.add_argument("-b","--begin", type=float,
-        required=True, help="number of seconds to start record relative to start_time (e.g. 60)")
+        required=True, help="Number of seconds to start record relative to start_time (e.g. 60)")
 
     parser.add_argument("-e","--end", type=float,
-        required=True, help="number of seconds to end record relative to start_time (e.g. 120)")
+        required=True, help="Number of seconds to end record relative to start_time (e.g. 120)")
 
     parser.add_argument("-n","--net", type=str,
-        required=True, help="net code")
+        required=True, help="Net code")
 
     parser.add_argument("-s","--sta", type=str,
-        required=True, help="sta code")
+        required=True, help="Sta code")
 
     parser.add_argument("-l","--loc", type=str,default="*",
-        required=False, help="loc code, wild cards ok")
+        required=False, help="Loc code, wild cards ok")
 
     parser.add_argument("-c","--chan", type=str,default="*",
-        required=False, help="chan codes, wild cards ok.")
+        required=False, help="Chan codes, wild cards ok.")
 
     parser.add_argument("-r","--resp", action="store_true",default=False,
         required=False, help="Remove response.")
@@ -145,7 +145,11 @@ def main():
     client = Client(timeout=240,base_url="http://service.iris.edu")
     if debug > 0:
         print("... getting waveform data")
-    stream=client.get_waveforms(net,sta,loc,chan,startt,endt,attach_response=do_resp)
+    try:
+        stream=client.get_waveforms(net,sta,loc,chan,startt,endt,attach_response=do_resp)
+    except Exception as e:
+        print(e)
+        sys.exit(0)
 
     if debug > 0:
         print(stream)
@@ -154,13 +158,20 @@ def main():
         stream=remove_resp(stream,debug)
 
     if do_mseed == True:
-        suffix='m'
+        suffix='.m'
         write_mseed(stream,suffix,debug)
 
     if do_mseed == False :
-        inv=client.get_stations(network=net,station=sta,starttime=startt,endtime=endt,level='channel')
-        suffix=".sac"
-        write_sac(stream,sac_info,inv,suffix,debug)
+        # for sac output, we need station info to write to headers. 
+        # we should add the option of passing in a prexisiting 
+        # Obspy inventory if the user already has the info
+        try:
+            inv=client.get_stations(network=net,station=sta,starttime=startt,endtime=endt,level='channel')
+            suffix=".sac"
+            write_sac(stream,sac_info,inv,suffix,debug)
+        except Exception as e:
+            print(e)
+            sys.exit(0)
 
 if __name__ == '__main__':
     main()
