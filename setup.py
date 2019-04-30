@@ -1,8 +1,8 @@
-""" Pull waveforsm from fdsn server
-
+""" Pull waveforsm from fdsn server and saves as
+SAC or mseed
 
 See:
-https://github.com/flyrok/fdsn_wffetch
+https://github.com/flyrok/fdsn_wf_fetch
 """
 
 from setuptools import setup, find_packages
@@ -15,18 +15,18 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 PROJECT_NAME="fdsn_wf_fetch"
-exec(open(here+"/fdsn_wf/version.py").read())
+exec(open(here+"/fdsn_wf_fetch/version.py").read())
 VERSION=__version__
 DESCRIPTION="Pull station waveform data from FDSN server"
-URL="https://github.com/flyrok/fdsn_station_info"
+URL="https://github.com/flyrok/fdsn_wf_fetch"
 AUTHOR="A Ferris"
 EMAIL="aferris@gmail.com"
 CLASSIFIERS=['Development Status :: 3 - Alpha',
-    'Intended Audience :: Seismic Researchers',
-    'Topic :: Obspy/FDSN :: Helper Scripts',
+    'Intended Audience :: Seismic Researcher',
+    'Topic :: Obspy/FDSN :: Helper Script',
     'License :: OSI Approved :: GPL-3 License',
-     'Programming Language :: Python :: 3']
-KEYWORDS="seismology obspy earthquakes fdsn"     
+    'Programming Language :: Python :: 3']
+KEYWORDS="seismology obspy earthquakes fdsn seismograms"     
 
 setup(
     name=PROJECT_NAME,  # Required
@@ -39,7 +39,7 @@ setup(
     author_email=EMAIL,  # Optional
     classifiers=CLASSIFIERS ,
     keywords=KEYWORDS,  # Optional
-    python_requires='>=3.5',
+    python_requires='>=3.6',
     include_package_data=True,
     packages=find_packages(exclude=['examples','doc']),
     install_requires=[],  # Optional
