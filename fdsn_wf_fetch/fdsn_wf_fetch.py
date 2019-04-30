@@ -4,12 +4,12 @@ from obspy import UTCDateTime
 from obspy.clients.fdsn import Client
 from obspy.core import AttribDict
 import argparse
-from os.path import isdir
+from pathlib import Path
 from sys import exit
 
-progname='fdsn_wffetch.py';
-__version_info__ = ('2019','04','01','0.01')
-__version__ = '-'.join(__version_info__)
+here = Path(__file__).resolve().parent
+exec(open(here / "version.py").read())
+
 
 def remove_resp(stream,debug):
     if debug > 0:
@@ -76,31 +76,31 @@ def main():
         required=True, help="sta code")
 
     parser.add_argument("-l","--loc", type=str,default="*",
-        required=False, help="loc code, wild cards ok, default: *")
+        required=False, help="loc code, wild cards ok")
 
     parser.add_argument("-c","--chan", type=str,default="*",
-        required=False, help="chan codes, wild cards ok default: *")
+        required=False, help="chan codes, wild cards ok.")
 
     parser.add_argument("-r","--resp", action="store_true",default=False,
-        required=False, help="remove response, default: False")
+        required=False, help="Remove response.")
 
     parser.add_argument("-m","--mseed", action="store_true",default=False,
-        required=False, help="Store in mseed instead of sac: False")
+        required=False, help="Store in mseed instead of sac.")
 
     parser.add_argument("--evlo", type=float,required=False, default=0.0,
-        help="event longitude, for sac output")
+        help="Event longitude, for sac output")
 
     parser.add_argument("--evla", type=float,required=False, default=0.0,
-        help="event latitude, for sac output")
+        help="Event latitude, for sac output")
 
     parser.add_argument("--evel", type=float,required=False, default=0.0,
-        help="event elevation, for sac output")
+        help="Event elevation, for sac output")
 
     parser.add_argument("--evdp", type=float,required=False, default=0.0,
-        help="event depth, for sac output")
+        help="Event depth, for sac output")
 
-    parser.add_argument("-o", "--outdir", type=str,required=False, default="./",
-        help="output dir for waveforms. must exist or error")
+    parser.add_argument("-o", "--outdir", type=str,required=False, default=Path("./"),
+        help="Output directory for waveforms. must exist or error")
 
     parser.add_argument( "--evid", type=str,required=False, default="evid",
         help="evid number added to output filename")
@@ -138,7 +138,7 @@ def main():
         print("outdir: ",args.outdir)
         print("sac_info:",sac_info)
 
-    if not isdir(args.outdir):
+    if not Path(args.outdir).is_dir():
         print(args.outdir," doesn't exist, exiting")
         exit(0)
 
