@@ -6,16 +6,18 @@ https://github.com/flyrok/fdsn_wf_fetch
 """
 
 from setuptools import setup, find_packages
-from os import path
+from pathlib import Path
 
-here = path.abspath(path.dirname(__file__))
+here = Path(__file__).resolve().parent
+
 
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+readme=here / 'README.md'
+with open(readme, encoding='utf-8') as f:
     long_description = f.read()
 
 PROJECT_NAME="fdsn_wf_fetch"
-exec(open(here+"/fdsn_wf_fetch/version.py").read())
+exec(open(here / "fdsn_wf_fetch/version.py").read())
 VERSION=__version__
 DESCRIPTION="Pull station waveform data from FDSN server"
 URL="https://github.com/flyrok/fdsn_wf_fetch"
@@ -41,7 +43,7 @@ setup(
     keywords=KEYWORDS,  # Optional
     python_requires='>=3.6',
     include_package_data=True,
-    packages=find_packages(exclude=['examples','doc']),
+    packages=find_packages(where=Path('./'),exclude=['examples','doc']),
     install_requires=[],  # Optional
     entry_points={  # Optional
         'console_scripts': [
