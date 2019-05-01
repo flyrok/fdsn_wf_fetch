@@ -149,7 +149,7 @@ def main():
         stream=client.get_waveforms(net,sta,loc,chan,startt,endt,attach_response=do_resp)
     except Exception as e:
         print(e)
-        sys.exit(0)
+        exit(0)
 
     if debug > 0:
         print(stream)
@@ -171,7 +171,7 @@ def main():
             write_sac(stream,sac_info,inv,suffix,debug)
         except Exception as e:
             print(e)
-            sys.exit(0)
+            exit(0)
 
 if __name__ == '__main__':
     main()
