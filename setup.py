@@ -43,7 +43,7 @@ setup(
     keywords=KEYWORDS,  # Optional
     python_requires='>=3.6',
     include_package_data=True,
-    packages=find_packages(where=Path('./'),exclude=['examples','doc']),
+    packages=find_packages(exclude=['examples','doc']),
     install_requires=[],  # Optional
     entry_points={  # Optional
         'console_scripts': [
