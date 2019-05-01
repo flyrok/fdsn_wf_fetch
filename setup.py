@@ -17,7 +17,7 @@ with open(readme, encoding='utf-8') as f:
     long_description = f.read()
 
 PROJECT_NAME="fdsn_wf_fetch"
-exec(open(here / "fdsn_wf_fetch/version.py").read())
+exec(open(here / "src/version.py").read())
 VERSION=__version__
 DESCRIPTION="Pull station waveform data from FDSN server"
 URL="https://github.com/flyrok/fdsn_wf_fetch"
@@ -47,7 +47,7 @@ setup(
     install_requires=[],  # Optional
     entry_points={  # Optional
         'console_scripts': [
-            'fdsn_wf_fetch.py=fdsn_wf_fetch.fdsn_wf_fetch:main',
+            'fdsn_wf_fetch.py=src.fdsn_wf_fetch:main',
         ],
     },
     extras_require={  # Optional
