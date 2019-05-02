@@ -22,7 +22,7 @@ VERSION=__version__
 DESCRIPTION="Pull station waveform data from FDSN server"
 URL="https://github.com/flyrok/fdsn_wf_fetch"
 AUTHOR="A Ferris"
-EMAIL="aferris@gmail.com"
+EMAIL="aferris@flyrok.org"
 CLASSIFIERS=['Development Status :: 3 - Alpha',
     'Intended Audience :: Seismic Researcher',
     'Topic :: Obspy/FDSN :: Helper Script',
@@ -43,7 +43,7 @@ setup(
     keywords=KEYWORDS,  # Optional
     python_requires='>=3.6',
     include_package_data=True,
-    packages=find_packages(exclude=['examples','doc']),
+    packages=find_packages(),
     install_requires=[],  # Optional
     entry_points={  # Optional
         'console_scripts': [
