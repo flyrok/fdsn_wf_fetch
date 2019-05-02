@@ -1,44 +1,42 @@
-## fdsn_wf_fetch##
+## fdsn_wf_fetch ##
 
-Pull waveforms from IRIS FDSN server (default server) and save them as
-sac or miniseed format.
+Pull seismic data from IRIS FDSN server (default server) and save it as
+sac or miniseed.
 
 Event info can be passed on the command line to fill out sac headers.
 
+### Purpose/Scope ###
+
+This script is useful for pulling single event, multi-channel data
+from IRIS and saving as SAC. If event info is given on the
+command line, then it will be written to the SAC headers.
 
 ## Install ##
 
 Clone source package
+`git clone ...`  
 
-**git clone ...  **  
+Install with pip after download 
+`pip install .`  
 
-Install in editable mode  
-
-**pip install -e .**  
-
-Install to system python  
-
-**pip install .**  
-
-Or install from github
-
-**pip install git+https://github.com/flyrok/fdsn_wf_fetch#egg=fdsn_wf_fetch**
+Or install directly from github
+`pip install git+https://github.com/flyrok/fdsn_wf_fetch#egg=fdsn_wf_fetch`  
 
 ## Python Dependencies ##
 
-python>=3.6 
-argparse  
-obspy
+python>=3.6   
+obspy  
 
 ## Usage ##
 
 to see help:  
-**fdsn_wf_fetch.py --help**    
+`fdsn_wf_fetch.py --help`    
 
 To see version:  
-**fdsn_wf_fetch.py --version**    
+`fdsn_wf_fetch.py --version`    
 
-To requestion BH channels for station:  
-**fdsn_wf_fetch.py -b 2019001T00:00 -e 2019100T00:00 --lon -71.0 --lat 41.0 --radmin 1 --radmax 50 -r -c "BH*" -o test.csv**    
+To grab 60 seconds of BH channel data for station HRV, remove response
+and save as SAC files:  
+`fdsn_wf_fetch.py -t 2019001T00:00 -b 0 -e 60 -n UI -s HRV -c "BH?" -r`    
 
 
