@@ -21,13 +21,16 @@ and pass the Net,Station,Chan,Loc info to `fdsn_wf_fetch.py`.
 ## Install ##
 
 Clone source package  
-`git clone (http://github.com/flyrok/fdsn_wf_fetch)`  
+`git clone http://github.com/flyrok/fdsn_wf_fetch`  
 
 Install with pip after download  
 `pip install .`  
 
 Or install directly from github  
 `pip install git+https://github.com/flyrok/fdsn_wf_fetch#egg=fdsn_wf_fetch`  
+
+Or just call the executable on your PATH can call directly
+./fdsn_wf_fetch.py
 
 ## Python Dependencies ##
 
