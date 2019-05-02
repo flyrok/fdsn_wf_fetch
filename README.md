@@ -34,8 +34,10 @@ Or just call the executable on your PATH can call directly
 
 ## Python Dependencies ##
 
-python>=3.6   
-obspy  
+python>=3.6  (script uses f-strings)  
+obspy (https://github.com/obspy/obspy/wiki)
+-- without this, nothing will work
+
 
 ## Usage ##
 
