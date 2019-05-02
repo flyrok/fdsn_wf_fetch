@@ -7,15 +7,21 @@ Event info can be passed on the command line to fill out sac headers.
 
 ### Purpose/Scope ###
 
-This script is useful for pulling single event, signle station, multi-channel data
+This script is useful for pulling single event, single station, multi-channel data
 from IRIS, saving as SAC, and populating the SAC headers. 
 If event info is given on the command line, then it will be written to the SAC headers, 
-otherwise on the station and channel metadata is populated.
+otherwise only the SAC station and channel fields are populated.
+
+Current implementation is to only to request one station at a time. This will likely change.
+
+An intended use is to loop through the output of 
+`fdsn_station_info.py` (https://github.com/flyrok/fdsn_station_info)
+and pass the Net,Station,Chan,Loc info to `fdsn_wf_fetch.py`.
 
 ## Install ##
 
 Clone source package  
-`git clone ...`  
+`git clone (http://github.com/flyrok/fdsn_wf_fetch)`  
 
 Install with pip after download  
 `pip install .`  
