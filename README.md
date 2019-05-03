@@ -29,7 +29,7 @@ Install with pip after download
 Or install directly from github  
 `pip install git+https://github.com/flyrok/fdsn_wf_fetch#egg=fdsn_wf_fetch`  
 
-Or just puth the executable on your PATH and call directly  
+Or just put the executable on your PATH and call directly  
 `./fdsn_wf_fetch.py`
 
 ## Python Dependencies ##
@@ -49,6 +49,6 @@ To see version:
 
 To grab 60 seconds of BH channel data for station HRV, remove response
 and save as SAC files:  
-`fdsn_wf_fetch.py -t 2019001T00:00 -b 0 -e 60 -n UI -s HRV -c "BH?" -r`    
+`fdsn_wf_fetch.py -t 2019001T00:00 -b 0 -e 60 -n IU -s HRV -c "BH?" -r`    
 
 
