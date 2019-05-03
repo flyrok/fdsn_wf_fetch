@@ -42,16 +42,18 @@ def write_sac(stream,sac_info,inv,suffix,debug):
         tr.stats.sac.khole=tr.stats.location
         t=tr.stats.starttime.strftime('%Y%j%H%M%S')
         #outfile=sac_info['outdir']+"/"+tr.id+"."+t+suffix
-        outfile=sac_info['outdir']+"/"+sac_info['evid']+"."+tr.id+suffix
+        #outfile=sac_info['outdir']+"/"+sac_info['evid']+"."+tr.id+suffix
+        #outfile=sac_info['outdir']+"/"+sac_info['evid']+"."+tr.id+suffix
+        outfile=f"{sac_info['outdir']}/{sac_info['evid']}.{tr.id}{suffix}"
+        outfile=Path(outfile)
         if debug > 0:
             print("*** writing files: ",outfile)
-        tr.write(filename=outfile,format='SAC')
+        tr.write(filename=outfile.as_posix(),format='SAC')
 
 def write_mseed(stream,suffix,debug):
     for tr in stream:
         t=tr.stats.starttime.strftime('%Y%j%H%M%S')
-        outfile=tr.id+"."+t+suffix
-        tr.write(filename=outfile,format='MSEED')
+        tr.write(filename=outfile.as_posix(),format='MSEED')
 
 def main():
     # Command line parsing
