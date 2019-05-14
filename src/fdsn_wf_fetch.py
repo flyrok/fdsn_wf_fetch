@@ -50,9 +50,11 @@ def write_sac(stream,sac_info,inv,suffix,debug):
             print("*** writing files: ",outfile)
         tr.write(filename=outfile.as_posix(),format='SAC')
 
-def write_mseed(stream,suffix,debug):
+def write_mseed(stream,sac_info,suffix,debug):
     for tr in stream:
         t=tr.stats.starttime.strftime('%Y%j%H%M%S')
+        outfile=f"{sac_info['outdir']}/{tr.id}.{t}{suffix}"
+        outfile=Path(outfile)
         tr.write(filename=outfile.as_posix(),format='MSEED')
 
 def main():
@@ -87,7 +89,7 @@ def main():
         required=False, help="Remove response.")
 
     parser.add_argument("-m","--mseed", action="store_true",default=False,
-        required=False, help="Store in mseed instead of sac.")
+        required=False, help="Store in mseed instead of sac. File name is seedid.time.m")
 
     parser.add_argument("--evlo", type=float,required=False, default=0.0,
         help="Event longitude, for sac output")
@@ -161,7 +163,7 @@ def main():
 
     if do_mseed == True:
         suffix='.m'
-        write_mseed(stream,suffix,debug)
+        write_mseed(stream,sac_info,suffix,debug)
 
     if do_mseed == False :
         # for sac output, we need station info to write to headers. 
