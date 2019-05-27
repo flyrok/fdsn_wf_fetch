@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import warnings
+warnings.filterwarnings("ignore")
 from obspy import UTCDateTime
 from obspy.clients.fdsn import Client
 from obspy.core import AttribDict
