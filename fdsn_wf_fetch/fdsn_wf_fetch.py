@@ -19,7 +19,14 @@ def remove_resp(stream,debug):
     stream.detrend(type='linear');
     if debug > 0:
         print("... removing responses, units VEL (m/s)")
-    stream.remove_response(output="VEL")
+    for i in stream:
+        sampr=i.stats.sampling_rate
+        pre_filt=[0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2]
+        try:
+            i.remove_response(output="VEL",pre_filt=pre_filt)
+        except Exception as e:
+            print("Problem removing response",e)
+    #    stream.remove_response(output="VEL")
     return(stream)
 
 def write_sac(stream,sac_info,inv,suffix,debug):
