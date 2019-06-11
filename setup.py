@@ -47,7 +47,7 @@ setup(
     install_requires=[],  # Optional
     entry_points={  # Optional
         'console_scripts': [
-            'fdsn_wf_fetch.py=fdsn_wf_fetch.fdsn_wf_fetch:main',
+            'fdsn_wf_fetch=fdsn_wf_fetch.fdsn_wf_fetch:main',
         ],
     },
     extras_require={  # Optional
