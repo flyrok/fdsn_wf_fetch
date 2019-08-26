@@ -13,7 +13,7 @@ here = Path(__file__).resolve().parent
 exec(open(here / "version.py").read())
 
 
-def remove_resp(stream,debug):
+def remove_resp(stream,nofilt,debug):
     if debug > 0:
         print("... detrending stream")
     stream.detrend(type='linear');
@@ -23,7 +23,10 @@ def remove_resp(stream,debug):
         sampr=i.stats.sampling_rate
         pre_filt=[0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2]
         try:
-            i.remove_response(output="VEL",pre_filt=pre_filt)
+            if nofilt:
+                i.remove_response(output="VEL")
+            else:
+                i.remove_response(output="VEL",pre_filt=pre_filt)
         except Exception as e:
             print("Problem removing response",e)
     #    stream.remove_response(output="VEL")
@@ -97,6 +100,9 @@ def main():
     parser.add_argument("-r","--resp", action="store_true",default=False,
         required=False, help="Remove response.")
 
+    parser.add_argument("-f","--nofilt", action="store_true",default=False,
+        required=False, help="Turn off pre-filter before response removal. Default is to apply filter.")
+
     parser.add_argument("-m","--mseed", action="store_true",default=False,
         required=False, help="Store in mseed instead of sac. File name is seedid.time.m")
 
@@ -133,6 +139,7 @@ def main():
     loc=args.loc
     chan=args.chan
     do_resp=args.resp
+    nofilt=args.nofilt
     do_mseed=args.mseed
     debug=args.verbose
     sac_info={'otime':UTCDateTime(args.start_time),
@@ -148,6 +155,7 @@ def main():
         print("chan: ",chan)
         print("do_mseed:",do_mseed)
         print("do_resp: ",do_resp)
+        print("nofilt: ",nofilt)
         print("outdir: ",args.outdir)
         print("sac_info:",sac_info)
 
@@ -156,6 +164,9 @@ def main():
         exit(0)
 
     client = Client(timeout=240,base_url="http://service.iris.edu")
+    #client = Client(timeout=240,base_url="http://service.ncedc.org")
+    #client = Client(timeout=240,base_url="http://service.scedc.caltech.edu")
+    print(client)
     if debug > 0:
         print("... getting waveform data")
     try:
@@ -168,7 +179,7 @@ def main():
         print(stream)
 
     if do_resp:
-        stream=remove_resp(stream,debug)
+        stream=remove_resp(stream,nofilt,debug)
 
     if do_mseed == True:
         suffix='.m'
