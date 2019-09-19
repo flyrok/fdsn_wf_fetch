@@ -48,11 +48,17 @@ To see version:
 `fdsn_wf_fetch.py --version`    
 
 To grab 60 seconds of BH channel data for station HRV, remove response
-and save as SAC files:  
+and save as SAC files (a default pre-filter is applied):  
 `fdsn_wf_fetch.py -t 2019001T00:00 -b 0 -e 60 -n IU -s HRV -c "BH?" -r`    
 
 To grab 60 seconds of BH channel data for station HRV, remove response,  
 but DON'T apply pre-filter, and save as SAC files:  
 `fdsn_wf_fetch.py -t 2019001T00:00 -b 0 -e 60 -n IU -s HRV -c "BH?" -r --nofilt`    
+
+To grab 60 seconds of BH channel data for station HRV, remove response,  
+apply a user defined pre-filter, and save as SAC files:  
+`fdsn_wf_fetch.py -t 2019001T00:00 -b 0 -e 60 -n IU -s HRV -c "BH?" -r --filter 0.002  0.003 36 38`    
+
+
 
 
