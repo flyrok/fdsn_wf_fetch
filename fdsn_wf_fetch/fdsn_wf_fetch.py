@@ -13,7 +13,7 @@ here = Path(__file__).resolve().parent
 exec(open(here / "version.py").read())
 
 
-def remove_resp(stream,nofilt,debug):
+def remove_resp(stream,nofilt,filt,debug):
     if debug > 0:
         print("... detrending stream")
     stream.detrend(type='linear');
@@ -21,7 +21,10 @@ def remove_resp(stream,nofilt,debug):
         print("... removing responses, units VEL (m/s)")
     for i in stream:
         sampr=i.stats.sampling_rate
-        pre_filt=[0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2]
+        if filt:
+            pre_filt=filt
+        else:
+            pre_filt=[0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2]
         try:
             if nofilt:
                 i.remove_response(output="VEL")
@@ -103,6 +106,9 @@ def main():
     parser.add_argument("-f","--nofilt", action="store_true",default=False,
         required=False, help="Turn off pre-filter before response removal. Default is to apply filter.")
 
+    parser.add_argument("--filter", nargs=4, type=float, default=None,
+        required=False, help="Define a bandpass filter for response removal. The freq limits are defined as a high and low pass taper (f1 f2 f3 f4). E.g. [0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2]")
+
     parser.add_argument("-m","--mseed", action="store_true",default=False,
         required=False, help="Store in mseed instead of sac. File name is seedid.time.m")
 
@@ -140,6 +146,7 @@ def main():
     chan=args.chan
     do_resp=args.resp
     nofilt=args.nofilt
+    filt=args.filt
     do_mseed=args.mseed
     debug=args.verbose
     sac_info={'otime':UTCDateTime(args.start_time),
@@ -179,7 +186,7 @@ def main():
         print(stream)
 
     if do_resp:
-        stream=remove_resp(stream,nofilt,debug)
+        stream=remove_resp(stream,nofilt,filt,debug)
 
     if do_mseed == True:
         suffix='.m'
