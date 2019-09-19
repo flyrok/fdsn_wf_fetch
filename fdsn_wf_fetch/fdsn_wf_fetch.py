@@ -104,7 +104,7 @@ def main():
         required=False, help="Remove response.")
 
     parser.add_argument("-f","--nofilt", action="store_true",default=False,
-        required=False, help="Turn off pre-filter before response removal. Default is to apply filter.")
+        required=False, help="Turn off pre-filter before response removal. This parameter overrides the --filter setting (i.e. if --nofilt is set, then no filtering will be done).  The default is to apply a filter. If a filter is not defined using the --filter parameter, then the following filter is used: [0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2].")
 
     parser.add_argument("--filter", nargs=4, type=float, default=None,
         required=False, help="Define a bandpass filter for response removal. The freq limits are defined as a high and low pass taper (f1 f2 f3 f4). E.g. [0.002, 0.003, 0.90*sampr/2, 0.95*sampr/2]")
@@ -146,7 +146,7 @@ def main():
     chan=args.chan
     do_resp=args.resp
     nofilt=args.nofilt
-    filt=args.filt
+    filt=args.filter
     do_mseed=args.mseed
     debug=args.verbose
     sac_info={'otime':UTCDateTime(args.start_time),
@@ -173,7 +173,7 @@ def main():
     client = Client(timeout=240,base_url="http://service.iris.edu")
     #client = Client(timeout=240,base_url="http://service.ncedc.org")
     #client = Client(timeout=240,base_url="http://service.scedc.caltech.edu")
-    print(client)
+
     if debug > 0:
         print("... getting waveform data")
     try:
